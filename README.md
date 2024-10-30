@@ -8,7 +8,7 @@ Follow these instructions to set up the project on your local machine.
 
 ### Prerequisites
 
-- **Node.js** and **npm** installed
+- **Node.js**, **ios or android simulator** and **npm** installed
 
 ### Setup Instructions
 
