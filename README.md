@@ -10,3 +10,24 @@ To start the setup run the below commands-
 	npx expo start
 5.To run in ios mode
 	i
+
+
+# Roommate Finder App
+
+This repository contains the source code for the Roommate Finder app, designed to help users find compatible roommates using a machine learning-based matching algorithm.
+
+## Getting Started
+
+Follow these instructions to set up the project on your local machine.
+
+### Prerequisites
+
+- **Node.js** and **npm** installed
+- **Yarn** package manager installed
+
+### Setup Instructions
+
+1. **Install dependencies:**
+   ```bash
+   yarn
+
