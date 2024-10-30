@@ -1,0 +1,47 @@
+{
+  "displayName": "rommate-finder",
+  "expo": {
+    "name": "rommate-finder",
+    "description": "Roomate Finder",
+    "scheme": "rommate-finder",
+    "slug": "rommate-finder",
+    "icon": "./src/assets/images/icon.png",
+    "orientation": "portrait",
+    "platforms": ["ios", "android", "web"],
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#070F26",
+      "translucent": true
+    },
+    "splash": {
+      "image": "./src/assets/images/vt-splash@3x.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#070F26",
+      "mdpi": "./src/assets/images/vt-splash.png",
+      "xhdpi": "./src/assets/images/vt-splash@2x.png",
+      "xxhdpi": "./src/assets/images/vt-splash@3x.png"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#111D40"
+      },
+      "package": "br.com.pegava"
+    },
+    "packagerOpts": {
+      "config": "metro.config.js",
+      "sourceExts": [
+        "expo.ts",
+        "expo.tsx",
+        "expo.js",
+        "expo.jsx",
+        "ts",
+        "tsx",
+        "js",
+        "jsx",
+        "json",
+        "wasm",
+        "svg"
+      ]
+    }
+  }
+}
