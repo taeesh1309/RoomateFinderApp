@@ -9,7 +9,6 @@ Follow these instructions to set up the project on your local machine.
 ### Prerequisites
 
 - **Node.js** and **npm** installed
-- **Yarn** package manager installed
 
 ### Setup Instructions
 
