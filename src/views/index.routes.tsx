@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { ThemeContext } from "styled-components/native";
+import axios from "axios";
 import Authentication from "./Authentication";
 import OneTimeCode from "./OneTimeCode";
 import UserProfile from "./UserProfile";
@@ -34,6 +35,23 @@ const screenWidth = Dimensions.get("window").width;
 
 const Tabs = () => {
   const themeContext = useContext(ThemeContext);
+  const [userId, setUserId] = useState(null); // 최신 userId를 저장할 상태
+
+  // 가장 최근에 추가된 userId를 가져오는 useEffect
+  useEffect(() => {
+    const fetchLatestUserId = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:5000/users/latest"); // 최신 userId를 반환하는 API 호출
+        console.log("fetching latest userId@@@@ :", response.data.userId);
+        setUserId(response.data.userId); // 최신 userId 상태에 저장
+        console.log("fetching latest userId2 @@@@@:", userId);
+      } catch (error) {
+        console.error("Error fetching latest userId:", error);
+      }
+    };
+
+    fetchLatestUserId();
+  }, []);
 
   return (
     <Tab.Navigator
@@ -64,8 +82,9 @@ const Tabs = () => {
         name={SceneName.Profile}
         options={{
           tabBarIcon: ({ focused, color }) =>
-            focused ? <Profile fill={"maroon"} />: <Profile fill={color} />,
+            focused ? <Profile fill={"maroon"} /> : <Profile fill={color} />,
         }}
+        initialParams={{ userId }}
         component={EditProfileView}
       />
     </Tab.Navigator>
@@ -75,7 +94,7 @@ const Tabs = () => {
 function Router() {
   const theme = useContext(ThemeContext);
 
-    return (
+  return (
     <Stack.Navigator
       initialRouteName={SceneName.EditProfile}
       screenOptions={{
