@@ -31,6 +31,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { Picker } from "@react-native-picker/picker";
 import Text from "~components/Text";
+import { UserContext } from "~views/UserContext";
 
 const AddUserPhoto = ({ picture, onDelete, onAdd }) => {
   const themeContext = useContext(ThemeContext);
@@ -110,23 +111,32 @@ const EditProfile = ({ route }) => {
   const headerHeight = useHeaderHeight();
   const navbarHeight = useNavbarStyle().height;
 
-  const [userId, setUserId] = useState(route.params?.userId || null); // route.params가 없으면 null
+  const { userId, setUserId } = useContext(UserContext);
 
   useEffect(() => {
-    if (route.params?.userId) {
+    if (route.params?.userId && !userId) {
       setUserId(route.params.userId);
     }
   }, [route.params?.userId]);
 
   //get user data
   useEffect(() => {
+    // let isMounted = true; // 마운트 상태를 추적하는 변수
+    const controller = new AbortController(); // AbortController 생성
+    const signal = controller.signal;
+
     const fetchData = async () => {
       try {
+        console.log("useEffect userId:", userId);
         if (userId) {
           const response = await axios.get(
-            `http://127.0.0.1:5000/users/${userId}`
+            `http://127.0.0.1:5000/users/${userId}`,
+            { signal }
           );
-          console.log("User data fetched successfully:", response.data.phone);
+
+          console.log("response:", response.data.name);
+          // if (isMounted) {
+          // console.log("User data fetched successfully:", response.data.phone);
           setName(response.data.name);
           setBio(response.data.bio);
           setPhone(response.data.phone);
@@ -135,50 +145,57 @@ const EditProfile = ({ route }) => {
           setHometown(response.data.hometown);
           setBudget(response.data.budget);
           setGender(response.data.gender);
-          setGenderOfInterest(response.data.preference.genderOfInterest);
+          // setGenderOfInterest(response.data.preference.genderOfInterest);
           setDietary(response.data.dietary);
           setSmoking(response.data.smoking);
           setDrinking(response.data.drinking);
 
           //Preferences
-          setSelectedEthnicityOfInterest(
-            response.data.preference.selectedEthnicity
-          );
-          setDietaryOfInterest(response.data.preference.dietary);
-          setSmokingOfInterest(response.data.preference.smoking);
-          setDrinkingOfInterest(response.data.preference.drinking);
-          setBudgetOfInterest(response.data.preference.budget);
+          // setSelectedEthnicityOfInterest(
+          //   response.data.preference.selectedEthnicity
+          // );
+          // setDietaryOfInterest(response.data.preference.dietary);
+          // setSmokingOfInterest(response.data.preference.smoking);
+          // setDrinkingOfInterest(response.data.preference.drinking);
+          // setBudgetOfInterest(response.data.preference.budget);
 
           //Hometype
-          setHometype(response.data.hometype);
-          setMoveindate(new Date(response.data.moveindate));
+          setHometype(response.data.home.hometype);
+          setMoveindate(new Date(response.data.home.moveindate));
+          // }
         }
       } catch (error) {
-        console.error("Error fetching or creating user:", error);
+        // if (isMounted) {
+        console.error("Error fetching user data:", error);
+        // }
       }
     };
     fetchData();
+    return () => {
+      // isMounted = false; // 컴포넌트가 언마운트될 때 마운트 상태를 false로 설정
+      controller.abort();
+    };
   }, [userId]);
 
   useDidMountEffect(() => {
     navigation.setOptions({ swipeEnabled: gesturesEnabled });
   }, [gesturesEnabled]);
 
-  const continueButtonDisabled = Boolean(!genderOfInterest || !gender);
+  const continueButtonDisabled = Boolean(!gender);
 
   const handleContinue = async () => {
     try {
-      const preference = {
-        genderOfInterest: genderOfInterest,
-        selectedEthnicity: selectedEthnicityOfInterest,
-        dietary: dietaryOfInterest,
-        smoking: smokingOfInterest,
-        drinking: drinkingOfInterest,
-        budget: budgetOfInterest,
-      };
+      // const preference = {
+      //   genderOfInterest: genderOfInterest,
+      //   selectedEthnicity: selectedEthnicityOfInterest,
+      //   dietary: dietaryOfInterest,
+      //   smoking: smokingOfInterest,
+      //   drinking: drinkingOfInterest,
+      //   budget: budgetOfInterest,
+      // };
       const home = {
         hometype: hometype,
-        moveindate: moveindate.toISOString(),
+        moveindate: moveindate,
       };
 
       if (!userId) {
@@ -195,14 +212,14 @@ const EditProfile = ({ route }) => {
           dietary: dietary,
           smoking: smoking,
           drinking: drinking,
-          preference: preference,
+          // preference: preference,
           home: home,
         });
 
         const newUserId = response.data.userId;
         setUserId(newUserId); // userId 설정
+        console.log("User created successfully:", response.data);
       } else {
-        console.log("test2 : ", moveindate);
         // userId가 있으면 업데이트
         const response = await axios.put(
           `http://127.0.0.1:5000/users/${userId}`,
@@ -218,7 +235,7 @@ const EditProfile = ({ route }) => {
             dietary: dietary,
             smoking: smoking,
             drinking: drinking,
-            preference: preference,
+            // preference: preference,
             home: home,
           }
         );
@@ -234,9 +251,11 @@ const EditProfile = ({ route }) => {
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || moveindate;
-    console.log("currentDate", currentDate);
+
     if (currentDate) {
-      setMoveindate(new Date(currentDate));
+      const dateOnly = new Date(currentDate);
+      dateOnly.setHours(0, 0, 0, 0);
+      setMoveindate(dateOnly);
     }
   };
 
@@ -391,7 +410,7 @@ const EditProfile = ({ route }) => {
             multiline
             keyboardType="numeric" // use numeric keyboard
           />
-          <View
+          {/* <View
             style={{
               height: 1,
               backgroundColor: "#d3d3d3",
@@ -472,49 +491,52 @@ const EditProfile = ({ route }) => {
             maxLength={30}
             multiline
             keyboardType="numeric" // use numeric keyboard
-          />
-
-          <View
-            style={{
-              height: 1,
-              backgroundColor: "#d3d3d3",
-              marginVertical: 20,
-            }}
-          />
-          <Text style={{ fontSize: 20, fontWeight: "bold", color: "red" }}>
-            Hometype
-          </Text>
-          <View
-            style={{
-              height: 1,
-              backgroundColor: "#d3d3d3",
-              marginVertical: 20,
-            }}
-          />
-          <RadioButtons
-            title="Room Sharing"
-            data={["No", "Yes"]}
-            value={hometype}
-            onChange={setHometype}
-          />
-          <View style={{ marginVertical: 10 }} />
-          <View style={{ alignItems: "flex-start" }}>
-            <Text fontSize="large" fontWeight="bold">
-              Move-in Date
-            </Text>
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={
-                moveindate instanceof Date && !isNaN(moveindate.getTime())
-                  ? moveindate
-                  : new Date()
-              }
-              mode="date"
-              display="default"
-              onChange={onChange}
-              style={{ marginVertical: 20 }}
-            />
-          </View>
+          /> */}
+          {userId && (
+            <>
+              <View
+                style={{
+                  height: 1,
+                  backgroundColor: "#d3d3d3",
+                  marginVertical: 20,
+                }}
+              />
+              <Text style={{ fontSize: 20, fontWeight: "bold", color: "red" }}>
+                Hometype
+              </Text>
+              <View
+                style={{
+                  height: 1,
+                  backgroundColor: "#d3d3d3",
+                  marginVertical: 20,
+                }}
+              />
+              <RadioButtons
+                title="Room Sharing"
+                data={["No", "Yes"]}
+                value={hometype}
+                onChange={setHometype}
+              />
+              <View style={{ marginVertical: 10 }} />
+              <View style={{ alignItems: "flex-start" }}>
+                <Text fontSize="large" fontWeight="bold">
+                  Move-in Date
+                </Text>
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={
+                    moveindate instanceof Date && !isNaN(moveindate.getTime())
+                      ? moveindate
+                      : new Date()
+                  }
+                  mode="date"
+                  display="default"
+                  onChange={onChange}
+                  style={{ marginVertical: 20 }}
+                />
+              </View>
+            </>
+          )}
         </Container>
         <ContinueButton
           disabled={continueButtonDisabled}

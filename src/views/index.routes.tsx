@@ -27,6 +27,7 @@ import LogoActive from "~images/LogoActive.svg";
 import MessagesActive from "~images/MessagesActive.svg";
 import ProfileActive from "~images/UserActive.svg";
 import { Dimensions } from "react-native";
+import { UserContext } from "./UserContext";
 
 const Tab = createMaterialTopTabNavigator<RootStackParamList>();
 const Stack = createStackNavigator<RootStackParamList>();
@@ -35,23 +36,8 @@ const screenWidth = Dimensions.get("window").width;
 
 const Tabs = () => {
   const themeContext = useContext(ThemeContext);
-  const [userId, setUserId] = useState(null); // 최신 userId를 저장할 상태
 
-  // 가장 최근에 추가된 userId를 가져오는 useEffect
-  useEffect(() => {
-    const fetchLatestUserId = async () => {
-      try {
-        const response = await axios.get("http://127.0.0.1:5000/users/latest"); // 최신 userId를 반환하는 API 호출
-        console.log("fetching latest userId@@@@ :", response.data.userId);
-        setUserId(response.data.userId); // 최신 userId 상태에 저장
-        console.log("fetching latest userId2 @@@@@:", userId);
-      } catch (error) {
-        console.error("Error fetching latest userId:", error);
-      }
-    };
-
-    fetchLatestUserId();
-  }, []);
+  const { userId, setUserId } = useContext(UserContext); // UserContext에서 userId와 setUserId 가져오기
 
   return (
     <Tab.Navigator
