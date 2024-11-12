@@ -77,6 +77,8 @@ const EditProfile = ({ route }) => {
   // -----Profile-----
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
+  const [age, setAge] = useState("");
+
   const [pics, setPics] = useState(pictures);
   const [gender, setGender] = useState("");
 
@@ -97,10 +99,12 @@ const EditProfile = ({ route }) => {
   const [dietaryOfInterest, setDietaryOfInterest] = useState("");
   const [smokingOfInterest, setSmokingOfInterest] = useState("");
   const [drinkingOfInterest, setDrinkingOfInterest] = useState("");
+  const [ageOfInterest, setAgeOfInterest] = useState("");
+
   const [budgetOfInterest, setBudgetOfInterest] = useState("");
 
   // ------Hometype-----
-  const [hometype, setHometype] = useState("");
+  const [apartmenttype, setApartmenttype] = useState("");
   const [moveindate, setMoveindate] = useState(new Date());
 
   // Swipe gestures need to be disabled when Draggable is active,
@@ -145,23 +149,26 @@ const EditProfile = ({ route }) => {
           setHometown(response.data.hometown);
           setBudget(response.data.budget);
           setGender(response.data.gender);
-          // setGenderOfInterest(response.data.preference.genderOfInterest);
+
           setDietary(response.data.dietary);
           setSmoking(response.data.smoking);
           setDrinking(response.data.drinking);
+          setAge(response.data.age);
 
           //Preferences
-          // setSelectedEthnicityOfInterest(
-          //   response.data.preference.selectedEthnicity
-          // );
-          // setDietaryOfInterest(response.data.preference.dietary);
-          // setSmokingOfInterest(response.data.preference.smoking);
-          // setDrinkingOfInterest(response.data.preference.drinking);
+          setSelectedEthnicityOfInterest(
+            response.data.preference.selectedEthnicityOfInterest
+          );
+          setGenderOfInterest(response.data.preference.genderOfInterest);
+          setDietaryOfInterest(response.data.preference.dietary);
+          setSmokingOfInterest(response.data.preference.smoking);
+          setDrinkingOfInterest(response.data.preference.drinking);
+          setAgeOfInterest(response.data.preference.ageOfInterest);
           // setBudgetOfInterest(response.data.preference.budget);
 
           //Hometype
-          setHometype(response.data.home.hometype);
-          setMoveindate(new Date(response.data.home.moveindate));
+          setApartmenttype(response.data.home.apartment_type);
+          setMoveindate(new Date(response.data.home.move_in_date));
           // }
         }
       } catch (error) {
@@ -185,17 +192,18 @@ const EditProfile = ({ route }) => {
 
   const handleContinue = async () => {
     try {
-      // const preference = {
-      //   genderOfInterest: genderOfInterest,
-      //   selectedEthnicity: selectedEthnicityOfInterest,
-      //   dietary: dietaryOfInterest,
-      //   smoking: smokingOfInterest,
-      //   drinking: drinkingOfInterest,
-      //   budget: budgetOfInterest,
-      // };
+      const preference = {
+        genderOfInterest: genderOfInterest,
+        selectedEthnicityOfInterest: selectedEthnicityOfInterest,
+        dietary: dietaryOfInterest,
+        smoking: smokingOfInterest,
+        drinking: drinkingOfInterest,
+        ageOfInterest: ageOfInterest,
+        // budget: budgetOfInterest,
+      };
       const home = {
-        hometype: hometype,
-        moveindate: moveindate,
+        apartment_type: apartmenttype,
+        move_in_date: moveindate,
       };
 
       if (!userId) {
@@ -212,8 +220,9 @@ const EditProfile = ({ route }) => {
           dietary: dietary,
           smoking: smoking,
           drinking: drinking,
-          // preference: preference,
+          preference: preference,
           home: home,
+          age: age,
         });
 
         const newUserId = response.data.userId;
@@ -235,8 +244,9 @@ const EditProfile = ({ route }) => {
             dietary: dietary,
             smoking: smoking,
             drinking: drinking,
-            // preference: preference,
+            preference: preference,
             home: home,
+            age: age,
           }
         );
         console.log("Profile updated successfully:", response.data);
@@ -311,6 +321,19 @@ const EditProfile = ({ route }) => {
             onChangeText={setName}
             maxLength={50}
           />
+          <Input
+            title="Age"
+            placeholder="Please enter your age"
+            value={age}
+            onChangeText={(text) => {
+              const numericText = text.replace(/[^0-9]/g, ""); //Only numbers are allowed
+              setAge(numericText);
+            }}
+            maxLength={3}
+            multiline
+            keyboardType="numeric" // use numeric keyboard
+          />
+
           <Input
             title="Bio"
             placeholder="Please enter your bio"
@@ -410,7 +433,7 @@ const EditProfile = ({ route }) => {
             multiline
             keyboardType="numeric" // use numeric keyboard
           />
-          {/* <View
+          <View
             style={{
               height: 1,
               backgroundColor: "#d3d3d3",
@@ -479,8 +502,19 @@ const EditProfile = ({ route }) => {
             value={drinkingOfInterest}
             onChange={setDrinkingOfInterest}
           />
-
           <Input
+            title="Age"
+            value={ageOfInterest}
+            onChangeText={(text) => {
+              const numericText = text.replace(/[^0-9]/g, ""); //Only numbers are allowed
+              setAgeOfInterest(numericText);
+            }}
+            maxLength={3}
+            multiline
+            keyboardType="numeric" // use numeric keyboard
+          />
+
+          {/* <Input
             title="Budget"
             placeholder="Please enter Maximum Budget (Per Month($))"
             value={budgetOfInterest}
@@ -492,51 +526,51 @@ const EditProfile = ({ route }) => {
             multiline
             keyboardType="numeric" // use numeric keyboard
           /> */}
-          {userId && (
-            <>
-              <View
-                style={{
-                  height: 1,
-                  backgroundColor: "#d3d3d3",
-                  marginVertical: 20,
-                }}
-              />
-              <Text style={{ fontSize: 20, fontWeight: "bold", color: "red" }}>
-                Hometype
-              </Text>
-              <View
-                style={{
-                  height: 1,
-                  backgroundColor: "#d3d3d3",
-                  marginVertical: 20,
-                }}
-              />
-              <RadioButtons
-                title="Room Sharing"
-                data={["No", "Yes"]}
-                value={hometype}
-                onChange={setHometype}
-              />
-              <View style={{ marginVertical: 10 }} />
-              <View style={{ alignItems: "flex-start" }}>
-                <Text fontSize="large" fontWeight="bold">
-                  Move-in Date
-                </Text>
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={
-                    moveindate instanceof Date && !isNaN(moveindate.getTime())
-                      ? moveindate
-                      : new Date()
-                  }
-                  mode="date"
-                  display="default"
-                  onChange={onChange}
-                  style={{ marginVertical: 20 }}
-                />
-              </View>
-            </>
-          )}
+          {/* {userId && ( */}
+          {/* <> */}
+          <View
+            style={{
+              height: 1,
+              backgroundColor: "#d3d3d3",
+              marginVertical: 20,
+            }}
+          />
+          <Text style={{ fontSize: 20, fontWeight: "bold", color: "red" }}>
+            Hometype
+          </Text>
+          <View
+            style={{
+              height: 1,
+              backgroundColor: "#d3d3d3",
+              marginVertical: 20,
+            }}
+          />
+          <RadioButtons
+            title="Apartment Type (number of bed)"
+            data={["Stud", "1", "2", "3"]}
+            value={apartmenttype}
+            onChange={setApartmenttype}
+          />
+          <View style={{ marginVertical: 10 }} />
+          <View style={{ alignItems: "flex-start" }}>
+            <Text fontSize="large" fontWeight="bold">
+              Move-in Date
+            </Text>
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={
+                moveindate instanceof Date && !isNaN(moveindate.getTime())
+                  ? moveindate
+                  : new Date()
+              }
+              mode="date"
+              display="default"
+              onChange={onChange}
+              style={{ marginVertical: 20 }}
+            />
+          </View>
+          {/* </> */}
+          {/* )} */}
         </Container>
         <ContinueButton
           disabled={continueButtonDisabled}
