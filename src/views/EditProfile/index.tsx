@@ -83,6 +83,7 @@ const EditProfile = ({ route }) => {
   const [gender, setGender] = useState("");
 
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [program, setProgram] = useState("");
   const [selectedEthnicity, setSelectedEthnicity] = useState("");
 
@@ -144,6 +145,7 @@ const EditProfile = ({ route }) => {
           setName(response.data.name);
           setBio(response.data.bio);
           setPhone(response.data.phone);
+          setEmail(response.data.email);
           setProgram(response.data.program);
           setSelectedEthnicity(response.data.selectedEthnicity);
           setHometown(response.data.hometown);
@@ -212,6 +214,7 @@ const EditProfile = ({ route }) => {
           name: name,
           bio: bio,
           phone: phone,
+          email: email,
           program: program,
           selectedEthnicity: selectedEthnicity,
           hometown: hometown,
@@ -236,6 +239,7 @@ const EditProfile = ({ route }) => {
             name: name,
             bio: bio,
             phone: phone,
+            email: email,
             program: program,
             selectedEthnicity: selectedEthnicity,
             hometown: hometown,
@@ -359,6 +363,20 @@ const EditProfile = ({ route }) => {
           />
 
           <Input
+            title="Email"
+            placeholder="Please enter your email"
+            value={email}
+            onChangeText={(text) => {
+              const emailText = text.replace(/[^a-zA-Z0-9@._-]/g, ""); // Only email-appropriate characters are allowed
+              setEmail(emailText);
+            }}
+            maxLength={50}
+            keyboardType="email-address" // use email keyboard
+            autoCapitalize="none"
+          />
+
+
+          <Input
             title="Program"
             placeholder="Please enter your Program"
             value={program}
@@ -404,7 +422,7 @@ const EditProfile = ({ route }) => {
 
           <RadioButtons
             title="Dietary"
-            data={["No Restrictions", "Vegetarian"]}
+            data={["Vegetarian","Non Vegetarian"]}
             value={dietary}
             onChange={setDietary}
           />
@@ -423,7 +441,7 @@ const EditProfile = ({ route }) => {
 
           <Input
             title="Budget"
-            placeholder="Please enter your Budget (Per Month($))"
+            placeholder="Please enter your Budget per month in USD"
             value={budget}
             onChangeText={(text) => {
               const numericText = text.replace(/[^0-9]/g, ""); //Only numbers are allowed
@@ -436,17 +454,17 @@ const EditProfile = ({ route }) => {
           <View
             style={{
               height: 1,
-              backgroundColor: "#d3d3d3",
+              backgroundColor: "maroon",
               marginVertical: 20,
             }}
           />
-          <Text style={{ fontSize: 20, fontWeight: "bold", color: "red" }}>
-            Preference
+          <Text fontSize = "h3" fontWeight="bold" style={{color: "black" , textAlign: "center"}}>
+            Roommate Preference
           </Text>
           <View
             style={{
               height: 1,
-              backgroundColor: "#d3d3d3",
+              backgroundColor: "maroon",
               marginVertical: 20,
             }}
           />
@@ -467,6 +485,7 @@ const EditProfile = ({ route }) => {
               }
             >
               <Picker.Item label="Select an option" value="" />
+              <Picker.Item label="No Preference" value="" />
               <Picker.Item label="Asian" value="asian" />
               <Picker.Item label="Black or African American" value="black" />
               <Picker.Item label="Hispanic or Latino" value="hispanic" />
@@ -485,25 +504,26 @@ const EditProfile = ({ route }) => {
           </View>
 
           <RadioButtons
-            title="Dietary"
-            data={["No Restrictions", "Vegetarian"]}
+            title="Dietary Preference"
+            data={["Vegetarian","Non Vegetarian","No Preference"]}
             value={dietaryOfInterest}
             onChange={setDietaryOfInterest}
           />
           <RadioButtons
-            title="Smoking"
-            data={["No", "Yes"]}
+            title="Smoker"
+            data={["No", "Yes","Maybe"]}
             value={smokingOfInterest}
             onChange={setSmokingOfInterest}
           />
           <RadioButtons
-            title="Drinking"
-            data={["No", "Yes"]}
+            title="Drinker"
+            data={["No", "Yes","Maybe"]}
             value={drinkingOfInterest}
             onChange={setDrinkingOfInterest}
           />
           <Input
             title="Age"
+            placeholder="Please enter your roommate's preferred age"
             value={ageOfInterest}
             onChangeText={(text) => {
               const numericText = text.replace(/[^0-9]/g, ""); //Only numbers are allowed
@@ -531,23 +551,23 @@ const EditProfile = ({ route }) => {
           <View
             style={{
               height: 1,
-              backgroundColor: "#d3d3d3",
+              backgroundColor: "maroon",
               marginVertical: 20,
             }}
           />
-          <Text style={{ fontSize: 20, fontWeight: "bold", color: "red" }}>
+          <Text fontSize = "h3" fontWeight="bold" style={{color: "black" , textAlign: "center"}}>
             Hometype
           </Text>
           <View
             style={{
               height: 1,
-              backgroundColor: "#d3d3d3",
+              backgroundColor: "maroon",
               marginVertical: 20,
             }}
           />
           <RadioButtons
             title="Apartment Type (number of bed)"
-            data={["Stud", "1", "2", "3"]}
+            data={["Studio", "1", "2+"]}
             value={apartmenttype}
             onChange={setApartmenttype}
           />
@@ -566,7 +586,7 @@ const EditProfile = ({ route }) => {
               mode="date"
               display="default"
               onChange={onChange}
-              style={{ marginVertical: 20 }}
+              style={{ marginVertical: 20, alignSelf: "center"}}
             />
           </View>
           {/* </> */}
