@@ -23,7 +23,7 @@ def find_roommates():
             user_preferences["Ethnicity"],
             user_preferences["Smoker"],
             user_preferences["Drinker"],
-            user_preferences["Dietary Preference"]
+            user_preferences["DietaryPreference"]
         ]
 
         input_encoded = [

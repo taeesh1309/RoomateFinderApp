@@ -87,6 +87,7 @@ const Teasers = ({ teasers }) => {
 
 const UserProfile = ({ route }) => {
   const { user } = route.params;
+  console.log("user", route.params);
 
   const swipeHandler = useSwipeHandler(user);
 
@@ -97,7 +98,7 @@ const UserProfile = ({ route }) => {
   const themeContext = useContext(ThemeContext);
 
   const MatchActionBarHeight = bottomInset + 100;
-  const firstName = user.name.split(" ")[0];
+  const firstName = "Faraz1"; //user.name.split(" ")[0];
 
   return (
     <>
@@ -124,7 +125,8 @@ const UserProfile = ({ route }) => {
         <BottomColumn style={{ paddingBottom: MatchActionBarHeight }}>
           <Content>
             <Name numberOfLines={1}>
-              {user.name}
+              {"Faraz"}
+              {/* {user.name} */}
               <Age>, {user.age}</Age>
             </Name>
             <Teasers teasers={user.teasers} />

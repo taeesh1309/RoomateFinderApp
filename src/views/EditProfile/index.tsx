@@ -210,23 +210,26 @@ const EditProfile = ({ route }) => {
 
       if (!userId) {
         // userId가 없으면 새로 생성
-        const response = await axios.post("http://127.0.0.1:5000/firebase/users", {
-          name: name,
-          bio: bio,
-          phone: phone,
-          email: email,
-          program: program,
-          selectedEthnicity: selectedEthnicity,
-          hometown: hometown,
-          budget: budget,
-          gender: gender,
-          dietary: dietary,
-          smoking: smoking,
-          drinking: drinking,
-          preference: preference,
-          home: home,
-          age: age,
-        });
+        const response = await axios.post(
+          "http://127.0.0.1:5000/firebase/users",
+          {
+            name: name,
+            bio: bio,
+            phone: phone,
+            email: email,
+            program: program,
+            selectedEthnicity: selectedEthnicity,
+            hometown: hometown,
+            budget: budget,
+            gender: gender,
+            dietary: dietary,
+            smoking: smoking,
+            drinking: drinking,
+            preference: preference,
+            home: home,
+            age: age,
+          }
+        );
 
         const newUserId = response.data.userId;
         setUserId(newUserId); // userId 설정
@@ -256,8 +259,46 @@ const EditProfile = ({ route }) => {
         console.log("Profile updated successfully:", response.data);
       }
 
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:5000/model/find_roommates",
+          {
+            Gender: "Male",
+            Age: 25,
+            Ethnicity: "Hindu",
+            Smoker: "No",
+            Drinker: "Yes",
+            DietaryPreference: "Vegetarian",
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.data.status === "success") {
+          console.log("Roommate matches found:", response.data.matches);
+          // return response.data.matches;
+        } else {
+          console.error("Error:", response.data.message);
+          // return [];
+        }
+      } catch (error) {
+        console.error(
+          "API call failed:",
+          error.response?.data?.message || error.message
+        );
+        // return [];
+      }
+
       // 다음 화면으로 이동
-      navigation.navigate(SceneName.Main, { screen: SceneName.Swipe });
+
+      navigation.navigate(SceneName.Main, {
+        screen: SceneName.Swipe,
+
+        // params: { matches },
+      });
     } catch (error) {
       console.error("Error creating user:", error);
     }
@@ -375,7 +416,6 @@ const EditProfile = ({ route }) => {
             autoCapitalize="none"
           />
 
-
           <Input
             title="Program"
             placeholder="Please enter your Program"
@@ -422,7 +462,7 @@ const EditProfile = ({ route }) => {
 
           <RadioButtons
             title="Dietary"
-            data={["Vegetarian","Non Vegetarian"]}
+            data={["Vegetarian", "Non Vegetarian"]}
             value={dietary}
             onChange={setDietary}
           />
@@ -458,7 +498,11 @@ const EditProfile = ({ route }) => {
               marginVertical: 20,
             }}
           />
-          <Text fontSize = "h3" fontWeight="bold" style={{color: "black" , textAlign: "center"}}>
+          <Text
+            fontSize="h3"
+            fontWeight="bold"
+            style={{ color: "black", textAlign: "center" }}
+          >
             Roommate Preference
           </Text>
           <View
@@ -505,19 +549,19 @@ const EditProfile = ({ route }) => {
 
           <RadioButtons
             title="Dietary Preference"
-            data={["Vegetarian","Non Vegetarian","No Preference"]}
+            data={["Vegetarian", "Non Vegetarian", "No Preference"]}
             value={dietaryOfInterest}
             onChange={setDietaryOfInterest}
           />
           <RadioButtons
             title="Smoker"
-            data={["No", "Yes","Maybe"]}
+            data={["No", "Yes", "Maybe"]}
             value={smokingOfInterest}
             onChange={setSmokingOfInterest}
           />
           <RadioButtons
             title="Drinker"
-            data={["No", "Yes","Maybe"]}
+            data={["No", "Yes", "Maybe"]}
             value={drinkingOfInterest}
             onChange={setDrinkingOfInterest}
           />
@@ -555,7 +599,11 @@ const EditProfile = ({ route }) => {
               marginVertical: 20,
             }}
           />
-          <Text fontSize = "h3" fontWeight="bold" style={{color: "black" , textAlign: "center"}}>
+          <Text
+            fontSize="h3"
+            fontWeight="bold"
+            style={{ color: "black", textAlign: "center" }}
+          >
             Hometype
           </Text>
           <View
@@ -586,7 +634,7 @@ const EditProfile = ({ route }) => {
               mode="date"
               display="default"
               onChange={onChange}
-              style={{ marginVertical: 20, alignSelf: "center"}}
+              style={{ marginVertical: 20, alignSelf: "center" }}
             />
           </View>
           {/* </> */}
