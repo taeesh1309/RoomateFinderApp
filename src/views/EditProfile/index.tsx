@@ -135,7 +135,7 @@ const EditProfile = ({ route }) => {
         console.log("useEffect userId:", userId);
         if (userId) {
           const response = await axios.get(
-            `http://127.0.0.1:5000/users/${userId}`,
+            `http://127.0.0.1:5000/firebase/users/${userId}`,
             { signal }
           );
 
@@ -210,7 +210,7 @@ const EditProfile = ({ route }) => {
 
       if (!userId) {
         // userId가 없으면 새로 생성
-        const response = await axios.post("http://127.0.0.1:5000/users", {
+        const response = await axios.post("http://127.0.0.1:5000/firebase/users", {
           name: name,
           bio: bio,
           phone: phone,
@@ -234,7 +234,7 @@ const EditProfile = ({ route }) => {
       } else {
         // userId가 있으면 업데이트
         const response = await axios.put(
-          `http://127.0.0.1:5000/users/${userId}`,
+          `http://127.0.0.1:5000/firebase/users/${userId}`,
           {
             name: name,
             bio: bio,

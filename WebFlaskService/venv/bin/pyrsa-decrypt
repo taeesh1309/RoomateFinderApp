@@ -1,4 +1,6 @@
-#!/Users/pyou/pjt_software/Roommate_back/venv/bin/python
+#!/bin/sh
+'''exec' "/Users/taeeshassadi/Desktop/Projects/Software Engineering/RoommateFinderApp/WebFlaskService/venv/bin/python" "$0" "$@"
+' '''
 # -*- coding: utf-8 -*-
 import re
 import sys
