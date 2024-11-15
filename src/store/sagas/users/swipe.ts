@@ -14,7 +14,7 @@ function* swipeUserRequest({
 
     yield put(Actions.users.swipe.success({ id }));
   } catch (err) {
-    const error = { id, message: "Alguma coisa deu errada" };
+    const error = { id, message: "Failed to swipe user" };
     yield put(Actions.users.swipe.failure(error));
   }
 }

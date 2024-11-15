@@ -98,7 +98,7 @@ const UserProfile = ({ route }) => {
   const themeContext = useContext(ThemeContext);
 
   const MatchActionBarHeight = bottomInset + 100;
-  const firstName = "Faraz1"; //user.name.split(" ")[0];
+  const firstName = user.name.split(" ")[0];
 
   return (
     <>
@@ -125,13 +125,12 @@ const UserProfile = ({ route }) => {
         <BottomColumn style={{ paddingBottom: MatchActionBarHeight }}>
           <Content>
             <Name numberOfLines={1}>
-              {"Faraz"}
-              {/* {user.name} */}
+              {user.name}
               <Age>, {user.age}</Age>
             </Name>
-            <Teasers teasers={user.teasers} />
+            {/* <Teasers teasers={user.teasers} /> */}
             <Description style={{ marginTop: 10 }}>
-              {user.description}
+              {`Ethnicity: ${user.ethnicity}\n\nDietary Preferences: ${user.Dietary}\n\nSmoker: ${user.smoker}\n\nDrinker: ${user.drinker}`}
             </Description>
             <ShareButton>
               <Description

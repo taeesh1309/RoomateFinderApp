@@ -32,6 +32,9 @@ import Animated, {
 import { Picker } from "@react-native-picker/picker";
 import Text from "~components/Text";
 import { UserContext } from "~views/UserContext";
+import { useMatches } from '~views/MatchesContext';
+import { useDispatch } from "react-redux";
+import {Actions} from "~store/reducers";
 
 const AddUserPhoto = ({ picture, onDelete, onAdd }) => {
   const themeContext = useContext(ThemeContext);
@@ -71,6 +74,7 @@ export interface Positions {
 
 const EditProfile = ({ route }) => {
   const themeContext = useContext(ThemeContext);
+  const { setMatches } = useMatches();
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
 
@@ -117,6 +121,7 @@ const EditProfile = ({ route }) => {
   const navbarHeight = useNavbarStyle().height;
 
   const { userId, setUserId } = useContext(UserContext);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (route.params?.userId && !userId) {
@@ -190,7 +195,15 @@ const EditProfile = ({ route }) => {
     navigation.setOptions({ swipeEnabled: gesturesEnabled });
   }, [gesturesEnabled]);
 
-  const continueButtonDisabled = Boolean(!gender);
+  const continueButtonDisabled = Boolean(
+    !gender ||
+    !genderOfInterest ||
+    !selectedEthnicityOfInterest ||
+    !dietaryOfInterest ||
+    !smokingOfInterest ||
+    !drinkingOfInterest ||
+    !ageOfInterest
+  );
 
   const handleContinue = async () => {
     try {
@@ -259,16 +272,38 @@ const EditProfile = ({ route }) => {
         console.log("Profile updated successfully:", response.data);
       }
 
+      let matches = [];
+      function transformResponseData(response) {
+        return response.matches.map((match, index) => ({
+          age: match.Age,
+          createdAt: new Date().toISOString(), // Use current timestamp
+          description: `I am a ${match.Age} year old`,
+          id: (index + 1).toString(), // Assign a unique ID based on index
+          name: match.Name.trim(),
+          pictures: match.Gender == "Female" ?
+          
+          [
+            "https://images.unsplash.com/photo-1621820499272-1e2c427647b5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80",
+            
+          ]: ["https://plus.unsplash.com/premium_photo-1664476788423-7899ac87bd7f?q=80&w=2944&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"], // Placeholder image
+          ethnicity: match.Ethnicity,
+          Dietary: match["Dietary Preference"],
+          smoker: match.Smoker,
+          drinker: match.Drinker,
+        }));
+      }
+
       try {
+        
         const response = await axios.post(
           "http://127.0.0.1:5000/model/find_roommates",
           {
-            Gender: "Male",
-            Age: 25,
-            Ethnicity: "Hindu",
-            Smoker: "No",
-            Drinker: "Yes",
-            DietaryPreference: "Vegetarian",
+            "Gender": genderOfInterest,
+            "Age": ageOfInterest,
+            "Ethnicity": selectedEthnicityOfInterest,
+            "Smoker": smokingOfInterest,
+            "Drinker": drinkingOfInterest,
+            "Dietary Preference": dietaryOfInterest,
           },
           {
             headers: {
@@ -278,8 +313,23 @@ const EditProfile = ({ route }) => {
         );
 
         if (response.data.status === "success") {
+          matches = response.data.matches;
           console.log("Roommate matches found:", response.data.matches);
-          // return response.data.matches;
+          
+
+          // Transform the response data
+          const transformedUsers = transformResponseData({matches});
+
+          dispatch(
+            Actions.users.list.success({
+              users: transformedUsers,
+              nextPage: 1,
+              hasMore: true,
+            })
+          );
+
+
+
         } else {
           console.error("Error:", response.data.message);
           // return [];
@@ -296,8 +346,6 @@ const EditProfile = ({ route }) => {
 
       navigation.navigate(SceneName.Main, {
         screen: SceneName.Swipe,
-
-        // params: { matches },
       });
     } catch (error) {
       console.error("Error creating user:", error);
@@ -462,7 +510,7 @@ const EditProfile = ({ route }) => {
 
           <RadioButtons
             title="Dietary"
-            data={["Vegetarian", "Non Vegetarian"]}
+            data={["Vegetarian", "Non-Vegetarian"]}
             value={dietary}
             onChange={setDietary}
           />
@@ -518,18 +566,17 @@ const EditProfile = ({ route }) => {
             value={genderOfInterest}
             onChange={setGenderOfInterest}
           />
+          <Container style={{ marginVertical: 10 }} />
           <View>
             <Text fontSize="large" fontWeight="bold">
               Ethnicity:
             </Text>
             <Picker
               selectedValue={selectedEthnicityOfInterest}
-              onValueChange={(itemValue) =>
-                setSelectedEthnicityOfInterest(itemValue)
-              }
+              onValueChange={(itemValue) => setSelectedEthnicityOfInterest(itemValue)}
             >
               <Picker.Item label="Select an option" value="" />
-              <Picker.Item label="No Preference" value="" />
+              <Picker.Item label="No Preference" value="No Preference" />
               <Picker.Item label="Asian" value="asian" />
               <Picker.Item label="Black or African American" value="black" />
               <Picker.Item label="Hispanic or Latino" value="hispanic" />
@@ -544,12 +591,18 @@ const EditProfile = ({ route }) => {
               />
               <Picker.Item label="Pacific Islander" value="pacific_islander" />
               <Picker.Item label="White or Caucasian" value="white" />
+              {/* New values from the dataset */}
+              <Picker.Item label="South Indian" value="South Indian" />
+              <Picker.Item label="Hindu" value="Hindu" />
+              <Picker.Item label="North Indian" value="North Indian" />
+              <Picker.Item label="Muslim" value="Muslim" />
             </Picker>
           </View>
 
+
           <RadioButtons
             title="Dietary Preference"
-            data={["Vegetarian", "Non Vegetarian", "No Preference"]}
+            data={["Vegetarian", "Non-Vegetarian", "No Preference"]}
             value={dietaryOfInterest}
             onChange={setDietaryOfInterest}
           />

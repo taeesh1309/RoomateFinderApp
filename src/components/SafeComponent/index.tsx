@@ -17,12 +17,11 @@ export const OfflineComponent = ({ refetch }: { refetch: () => void }) => {
     <Container>
       <Content>
         <DisconnectedIllustration />
-        <Title>Oops, você está offline</Title>
+        <Title>Oops, you are offline</Title>
         <ContainedText>
-          Aguarde um pouquinho e tente novamente quando a conexão estiver
-          estável
+          Please wait a moment and try again when your connection is stable.
         </ContainedText>
-        <Button onPress={() => refetch()}>Tentar novamente</Button>
+        <Button onPress={() => refetch()}>Try Again</Button>
       </Content>
     </Container>
   );
@@ -33,12 +32,12 @@ export const RequestErrorComponent = ({ refetch }: { refetch: () => void }) => {
     <Container>
       <Content>
         <ErrorIllustration />
-        <Title>Oops, alguma coisa deu errada</Title>
+        <Title>Oops, something went wrong</Title>
         <ContainedText>
-          Não conseguimos processar sua requisição no momento, mas já estamos
-          trabalhando para resolver o problema.
+          We couldn't process your request at the moment, but we're already
+          working on fixing the problem.
         </ContainedText>
-        <Button onPress={() => refetch()}>Tentar novamente</Button>
+        <Button onPress={() => refetch()}>Try Again</Button>
       </Content>
     </Container>
   );
@@ -49,8 +48,8 @@ export const UnknownErrorComponent = () => {
     <Container>
       <Content>
         <ErrorIllustration />
-        <Title>Oops, alguma coisa deu errada</Title>
-        <ContainedText>Tentar novamente</ContainedText>
+        <Title>Oops, something went wrong</Title>
+        <ContainedText>Try Again</ContainedText>
       </Content>
     </Container>
   );
