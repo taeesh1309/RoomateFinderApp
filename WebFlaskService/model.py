@@ -33,7 +33,7 @@ X_scaled = scaler.fit_transform(X)
 X_train, X_test = train_test_split(X_scaled, test_size=0.2, random_state=42)
 
 # Train NearestNeighbors model with cosine similarity for recommendations
-knn_model = NearestNeighbors(n_neighbors=5, metric='cosine')
+knn_model = NearestNeighbors(n_neighbors=10, metric='cosine')
 knn_model.fit(X_train)
 
 # Set tolerance level for similarity and evaluate the model

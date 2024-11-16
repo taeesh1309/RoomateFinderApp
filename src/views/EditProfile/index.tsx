@@ -312,6 +312,10 @@ const EditProfile = ({ route }) => {
           }
         );
 
+        if (typeof response.data === "string" && response.data.includes("NaN")) {
+          response.data = JSON.parse(response.data.replace(/\bNaN\b/g, "null"));
+      }
+
         if (response.data.status === "success") {
           matches = response.data.matches;
           console.log("Roommate matches found:", response.data.matches);
