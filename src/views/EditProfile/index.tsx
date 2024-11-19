@@ -500,6 +500,11 @@ const EditProfile = ({ route }) => {
               />
               <Picker.Item label="Pacific Islander" value="pacific_islander" />
               <Picker.Item label="White or Caucasian" value="white" />
+              {/* New values from the dataset */}
+              <Picker.Item label="South Indian" value="South Indian" />
+              <Picker.Item label="Hindu" value="Hindu" />
+              <Picker.Item label="North Indian" value="North Indian" />
+              <Picker.Item label="Muslim" value="Muslim" />
             </Picker>
           </View>
 
