@@ -87,7 +87,6 @@ const Teasers = ({ teasers }) => {
 
 const UserProfile = ({ route }) => {
   const { user } = route.params;
-  console.log("user", route.params);
 
   const swipeHandler = useSwipeHandler(user);
 

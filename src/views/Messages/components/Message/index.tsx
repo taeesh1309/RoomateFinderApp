@@ -12,10 +12,10 @@ export const Message = ({ item }) => {
     <Container
       onPress={() => navigation.navigate(SceneName.Chat, { user: item })}
     >
-      <Picture source={{ uri: item.picture }} />
+      <Picture source={{ uri: "https://picsum.photos/200" }} />
       <View>
-        <Text fontWeight="semiBold">{item.name}</Text>
-        <Text fontSize="small">{item.lastMessage}</Text>
+        <Text fontWeight="semiBold">{item.matchedUserName}</Text>
+        <Text fontSize="small">"Hello!!"</Text>
       </View>
     </Container>
   );

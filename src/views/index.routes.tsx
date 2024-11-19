@@ -37,7 +37,12 @@ const screenWidth = Dimensions.get("window").width;
 const Tabs = () => {
   const themeContext = useContext(ThemeContext);
 
-  const { userId, setUserId } = useContext(UserContext); // UserContext에서 userId와 setUserId 가져오기
+  const { userId, setUserId, currentTab, setCurrentTab } =
+    useContext(UserContext); // UserContext에서 userId와 setUserId 가져오기
+
+  useEffect(() => {
+    console.log("currentTab", currentTab); // currentTab이 변경될 때마다 로그 출력
+  }, [currentTab]);
 
   return (
     <Tab.Navigator
@@ -47,6 +52,12 @@ const Tabs = () => {
         tabBarInactiveTintColor: themeContext.colors.text,
       }}
       initialRouteName={SceneName.Swipe}
+      screenListeners={{
+        tabPress: (e) => {
+          const routeName = e.target?.split("-")[0]; // 탭의 이름을 가져옴
+          setCurrentTab(routeName); // currentTab 상태 업데이트
+        },
+      }}
     >
       <Tab.Screen
         options={{

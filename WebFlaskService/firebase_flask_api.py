@@ -50,3 +50,41 @@ def update_user(user_id):
         return jsonify({"success": True, "userId": user_id}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+
+@firebase_bp.route('/chats', methods=['POST'])
+def add_chats():
+    try:
+        chats_data = request.json
+        doc_ref = db.collection('chats').document()
+        doc_ref.set(chats_data)
+        doc_ref.update({"createdAt": firestore.SERVER_TIMESTAMP})
+        return jsonify({"success": True}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+@firebase_bp.route('/chats/<user_id>', methods=['GET'])
+def get_chats(user_id):
+    try:
+        # Firestore에서 userId 필드로 문서 검색
+        chat_ref = db.collection('chats').where('userId', '==', user_id)
+        docs = chat_ref.get()
+        
+         # 결과를 리스트로 변환하며 document ID 추가
+        chat_data = [{"id": doc.id, **doc.to_dict()} for doc in docs]
+        print(' doc.id, : ', chat_data)
+        
+        # 문서가 없을 경우 빈 리스트 반환
+        if not chat_data:
+            return jsonify([]), 200
+        
+        # # 문서가 없을 경우 처리
+        # if not docs:
+        #     return jsonify({"error": "Chat not found"}), 404
+
+
+        
+        return jsonify(chat_data), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    

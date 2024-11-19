@@ -32,9 +32,9 @@ import Animated, {
 import { Picker } from "@react-native-picker/picker";
 import Text from "~components/Text";
 import { UserContext } from "~views/UserContext";
-import { useMatches } from '~views/MatchesContext';
+import { useMatches } from "~views/MatchesContext";
 import { useDispatch } from "react-redux";
-import {Actions} from "~store/reducers";
+import { Actions } from "~store/reducers";
 
 const AddUserPhoto = ({ picture, onDelete, onAdd }) => {
   const themeContext = useContext(ThemeContext);
@@ -197,12 +197,12 @@ const EditProfile = ({ route }) => {
 
   const continueButtonDisabled = Boolean(
     !gender ||
-    !genderOfInterest ||
-    !selectedEthnicityOfInterest ||
-    !dietaryOfInterest ||
-    !smokingOfInterest ||
-    !drinkingOfInterest ||
-    !ageOfInterest
+      !genderOfInterest ||
+      !selectedEthnicityOfInterest ||
+      !dietaryOfInterest ||
+      !smokingOfInterest ||
+      !drinkingOfInterest ||
+      !ageOfInterest
   );
 
   const handleContinue = async () => {
@@ -280,12 +280,14 @@ const EditProfile = ({ route }) => {
           description: `I am a ${match.Age} year old`,
           id: (index + 1).toString(), // Assign a unique ID based on index
           name: match.Name.trim(),
-          pictures: match.Gender == "Female" ?
-          
-          [
-            "https://images.unsplash.com/photo-1621820499272-1e2c427647b5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80",
-            
-          ]: ["https://plus.unsplash.com/premium_photo-1664476788423-7899ac87bd7f?q=80&w=2944&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"], // Placeholder image
+          pictures:
+            match.Gender == "Female"
+              ? [
+                  "https://images.unsplash.com/photo-1621820499272-1e2c427647b5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80",
+                ]
+              : [
+                  "https://plus.unsplash.com/premium_photo-1664476788423-7899ac87bd7f?q=80&w=2944&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                ], // Placeholder image
           ethnicity: match.Ethnicity,
           Dietary: match["Dietary Preference"],
           smoker: match.Smoker,
@@ -294,15 +296,14 @@ const EditProfile = ({ route }) => {
       }
 
       try {
-        
         const response = await axios.post(
           "http://127.0.0.1:5000/model/find_roommates",
           {
-            "Gender": genderOfInterest,
-            "Age": ageOfInterest,
-            "Ethnicity": selectedEthnicityOfInterest,
-            "Smoker": smokingOfInterest,
-            "Drinker": drinkingOfInterest,
+            Gender: genderOfInterest,
+            Age: ageOfInterest,
+            Ethnicity: selectedEthnicityOfInterest,
+            Smoker: smokingOfInterest,
+            Drinker: drinkingOfInterest,
             "Dietary Preference": dietaryOfInterest,
           },
           {
@@ -312,17 +313,19 @@ const EditProfile = ({ route }) => {
           }
         );
 
-        if (typeof response.data === "string" && response.data.includes("NaN")) {
+        if (
+          typeof response.data === "string" &&
+          response.data.includes("NaN")
+        ) {
           response.data = JSON.parse(response.data.replace(/\bNaN\b/g, "null"));
-      }
+        }
 
         if (response.data.status === "success") {
           matches = response.data.matches;
           console.log("Roommate matches found:", response.data.matches);
-          
 
           // Transform the response data
-          const transformedUsers = transformResponseData({matches});
+          const transformedUsers = transformResponseData({ matches });
 
           dispatch(
             Actions.users.list.success({
@@ -331,9 +334,6 @@ const EditProfile = ({ route }) => {
               hasMore: true,
             })
           );
-
-
-
         } else {
           console.error("Error:", response.data.message);
           // return [];
@@ -577,7 +577,9 @@ const EditProfile = ({ route }) => {
             </Text>
             <Picker
               selectedValue={selectedEthnicityOfInterest}
-              onValueChange={(itemValue) => setSelectedEthnicityOfInterest(itemValue)}
+              onValueChange={(itemValue) =>
+                setSelectedEthnicityOfInterest(itemValue)
+              }
             >
               <Picker.Item label="Select an option" value="" />
               <Picker.Item label="No Preference" value="No Preference" />
@@ -602,7 +604,6 @@ const EditProfile = ({ route }) => {
               <Picker.Item label="Muslim" value="Muslim" />
             </Picker>
           </View>
-
 
           <RadioButtons
             title="Dietary Preference"
