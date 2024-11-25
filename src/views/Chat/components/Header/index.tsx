@@ -11,13 +11,17 @@ export default function Component() {
   const { params } = useRoute<IChat>();
   const { colors } = useContext(ThemeContext);
 
+  console.log("cc ", params);
+
   return (
     <Header>
       <BackTouchArea onPress={() => navigation.goBack()}>
         <BackArrow height={15} width={15} fill={colors.text} />
       </BackTouchArea>
-      <Picture source={{ uri: params.user?.picture }} />
-      <Text fontWeight="bold">{params.user?.name || "Undefined"}</Text>
+      <Picture source={{ uri: params.user?.pictures[0] }} />
+      <Text fontWeight="bold">
+        {params.user?.matchedUserName || "Undefined"}
+      </Text>
     </Header>
   );
 }

@@ -7,7 +7,6 @@ import { SceneName } from "~src/@types/SceneName";
 
 export const Message = ({ item }) => {
   const navigation = useNavigation();
-  console.log("pic! ", item.pictures);
 
   const pictureUri =
     Array.isArray(item?.pictures) && item.pictures.length > 0
