@@ -44,6 +44,7 @@ const SwipeHandler: React.FC<ISwipeHandler> = ({ card }) => {
           {
             userId: userId,
             matchedUserName: card.name,
+            pictures: card.pictures, // chat picture add
           }
         );
         console.log("Success:", response.data);

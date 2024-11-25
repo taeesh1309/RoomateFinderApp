@@ -7,12 +7,18 @@ import { SceneName } from "~src/@types/SceneName";
 
 export const Message = ({ item }) => {
   const navigation = useNavigation();
+  console.log("pic! ", item.pictures);
 
+  const pictureUri =
+    Array.isArray(item?.pictures) && item.pictures.length > 0
+      ? item.pictures[0]
+      : "https://picsum.photos/200";
   return (
     <Container
       onPress={() => navigation.navigate(SceneName.Chat, { user: item })}
     >
-      <Picture source={{ uri: "https://picsum.photos/200" }} />
+      <Picture source={{ uri: pictureUri }} />
+
       <View>
         <Text fontWeight="semiBold">{item.matchedUserName}</Text>
         <Text fontSize="small">"Hello!!"</Text>
