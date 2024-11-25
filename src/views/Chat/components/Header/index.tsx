@@ -11,8 +11,6 @@ export default function Component() {
   const { params } = useRoute<IChat>();
   const { colors } = useContext(ThemeContext);
 
-  console.log("cc ", params);
-
   return (
     <Header>
       <BackTouchArea onPress={() => navigation.goBack()}>
