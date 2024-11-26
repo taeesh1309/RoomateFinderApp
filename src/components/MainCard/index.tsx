@@ -32,7 +32,6 @@ const springConfig = { mass: 0.2 };
 function VisitingCard({ user, shouldShowPersonalInfo = true, ...props }: any) {
   // const { matches } = useMatches();
   const { pictures } = user;
-  // console.log("visiting card ; ", user);
   const [currentImage, setCurrentImage] = useState(0);
   const navigation = useNavigation();
 

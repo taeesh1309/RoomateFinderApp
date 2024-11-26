@@ -20,7 +20,7 @@ export const Message = ({ item }) => {
 
       <View>
         <Text fontWeight="semiBold">{item.matchedUserName}</Text>
-        <Text fontSize="small">"Hello!!"</Text>
+        <Text fontSize="small">Hello, I am looking for a roommate</Text>
       </View>
     </Container>
   );

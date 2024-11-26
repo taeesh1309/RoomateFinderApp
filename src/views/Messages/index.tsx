@@ -23,7 +23,6 @@ function Component() {
 
   useEffect(() => {
     if (currentTab === "Messages") {
-      console.log("Component ??!"); // 컴포넌트가 마운트될 때 로그 출력
 
       const fetchData = async () => {
         setLoading(true);
@@ -32,7 +31,6 @@ function Component() {
             `http://127.0.0.1:5000/firebase/chats/${userId}`
           );
           setData(response.data);
-          console.log("Data fetched:", response.data);
         } catch (error) {
           console.error("Error fetching message data:", error);
         } finally {
@@ -43,7 +41,6 @@ function Component() {
       fetchData();
 
       return () => {
-        console.log("Component unmounted!");
       };
     }
   }, [currentTab, userId]);

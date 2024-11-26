@@ -32,7 +32,6 @@ export function* fetchUsersRequest(action) {
     // get data from useMatches
     const response = useMatches();
 
-    console.log(response);
 
     // Transform the response data
     const transformedUsers = transformResponseData(response);
@@ -46,7 +45,6 @@ export function* fetchUsersRequest(action) {
     );
   } catch (err) {
     const error = { message: "Failed to fetch users" };
-    console.log(err);
     yield put(Actions.users.list.failure(error));
   }
 }

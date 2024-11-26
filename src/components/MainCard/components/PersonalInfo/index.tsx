@@ -5,7 +5,6 @@ import { useMatches } from '~views/MatchesContext';
 
 function PersonalInfo({ user }) {
   const { matches } = useMatches();
-  // console.log(matches);
   return (
     <Glassmorphism>
       <Container>

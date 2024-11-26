@@ -47,7 +47,6 @@ const SwipeHandler: React.FC<ISwipeHandler> = ({ card }) => {
             pictures: card.pictures, // chat picture add
           }
         );
-        console.log("Success:", response.data);
       } catch (error) {
         console.error("Error:", error);
       }

@@ -41,7 +41,6 @@ const Tabs = () => {
     useContext(UserContext); // UserContext에서 userId와 setUserId 가져오기
 
   useEffect(() => {
-    console.log("currentTab", currentTab); // currentTab이 변경될 때마다 로그 출력
   }, [currentTab]);
 
   return (

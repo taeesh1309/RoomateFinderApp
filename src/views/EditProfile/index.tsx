@@ -137,16 +137,12 @@ const EditProfile = ({ route }) => {
 
     const fetchData = async () => {
       try {
-        console.log("useEffect userId:", userId);
         if (userId) {
           const response = await axios.get(
             `http://127.0.0.1:5000/firebase/users/${userId}`,
             { signal }
           );
 
-          console.log("response:", response.data.name);
-          // if (isMounted) {
-          // console.log("User data fetched successfully:", response.data.phone);
           setName(response.data.name);
           setBio(response.data.bio);
           setPhone(response.data.phone);
@@ -246,7 +242,6 @@ const EditProfile = ({ route }) => {
 
         const newUserId = response.data.userId;
         setUserId(newUserId); // userId 설정
-        console.log("User created successfully:", response.data);
       } else {
         // userId가 있으면 업데이트
         const response = await axios.put(
@@ -269,7 +264,6 @@ const EditProfile = ({ route }) => {
             age: age,
           }
         );
-        console.log("Profile updated successfully:", response.data);
       }
 
       let matches = [];
@@ -322,7 +316,6 @@ const EditProfile = ({ route }) => {
 
         if (response.data.status === "success") {
           matches = response.data.matches;
-          console.log("Roommate matches found:", response.data.matches);
 
           // Transform the response data
           const transformedUsers = transformResponseData({ matches });
