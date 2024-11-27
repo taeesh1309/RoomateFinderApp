@@ -286,6 +286,8 @@ const EditProfile = ({ route }) => {
           Dietary: match["Dietary Preference"],
           smoker: match.Smoker,
           drinker: match.Drinker,
+          expectedRent: match["Expected Rent"],
+          bedroomPreference: match["Bedroom Preference"],
         }));
       }
 
@@ -298,7 +300,12 @@ const EditProfile = ({ route }) => {
             Ethnicity: selectedEthnicityOfInterest,
             Smoker: smokingOfInterest,
             Drinker: drinkingOfInterest,
-            "Dietary Preference": dietaryOfInterest,
+            "Dietary Preference": dietaryOfInterest === "Vegetarian" 
+            ? "Veg" 
+            : dietaryOfInterest === "Non-Vegetarian" 
+            ? "Non-Veg" 
+            : "No Preference"
+
           },
           {
             headers: {
@@ -512,7 +519,7 @@ const EditProfile = ({ route }) => {
 
           <RadioButtons
             title="Dietary"
-            data={["Vegetarian", "Non-Vegetarian"]}
+            data={["Veg", "Non-Veg"]}
             value={dietary}
             onChange={setDietary}
           />
@@ -603,25 +610,25 @@ const EditProfile = ({ route }) => {
             </Picker>
           </View>
 
-          <RadioButtons
+            <RadioButtons
             title="Dietary Preference"
-            data={["Vegetarian", "Non-Vegetarian", "No Preference"]}
+            data={["Veg", "Non-Veg", "None"]}
             value={dietaryOfInterest}
             onChange={setDietaryOfInterest}
-          />
-          <RadioButtons
+            />
+            <RadioButtons
             title="Smoker"
             data={["No", "Yes", "Maybe"]}
             value={smokingOfInterest}
             onChange={setSmokingOfInterest}
-          />
-          <RadioButtons
+            />
+            <RadioButtons
             title="Drinker"
             data={["No", "Yes", "Maybe"]}
             value={drinkingOfInterest}
             onChange={setDrinkingOfInterest}
-          />
-          <Input
+            />
+            <Input
             title="Age"
             placeholder="Please enter your roommate's preferred age"
             value={ageOfInterest}

@@ -20,6 +20,8 @@ function transformResponseData(response) {
     Dietary: match["Dietary Preference"],
     smoker: match.Smoker,
     drinker: match.Drinker,
+    expectedRent: match["Expected Rent"],
+    bedroomPreference: match["Bedroom Preference"],
   }));
 }
 

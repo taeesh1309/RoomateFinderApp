@@ -30,6 +30,8 @@ import { getCurrentCardId } from "~store/selectors";
 import { Actions } from "~store/reducers";
 import GoBack from "./components/GoBack";
 import { Text } from "~components";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
 
 enum TeaserTypes {
   School = "school",
@@ -39,6 +41,50 @@ enum TeaserTypes {
 const Icons = {
   [TeaserTypes.School]: SchoolIcon,
   [TeaserTypes.Job]: JobIcon,
+};
+
+const UserDetails = ({ user }) => {
+  return (
+    <View style={{ marginVertical: 20, padding: 15, backgroundColor: "#DEDEDE", borderRadius: 10, // iOS Shadow
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 5 },
+      shadowOpacity: 0.25,
+      shadowRadius: 10,
+      // Android Shadow
+      elevation: 10, }}>
+      <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}>
+        <Icon name="account" size={24} color="#4caf50" style={{ marginRight: 10 }} />
+        <Text fontSize="regular" fontWeight="bold">Ethnicity: </Text>
+        <Text fontSize="regular">{user.ethnicity}</Text>
+      </View>
+      <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}>
+        <Icon name="food" size={24} color="#ff9800" style={{ marginRight: 10 }} />
+        <Text fontSize="regular" fontWeight="bold">Dietary Preferences: </Text>
+        <Text fontSize="regular">{user.Dietary}</Text>
+      </View>
+      <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}>
+        <Icon name="smoking" size={24} color="#f44336" style={{ marginRight: 10 }} />
+        <Text fontSize="regular" fontWeight="bold">Smoker: </Text>
+        <Text fontSize="regular">{user.smoker}</Text>
+      </View>
+      <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}>
+        <Icon name="glass-wine" size={24} color="#3f51b5" style={{ marginRight: 10 }} />
+        <Text fontSize="regular" fontWeight="bold">Drinker: </Text>
+        <Text fontSize="regular">{user.drinker}</Text>
+      </View>
+      <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}>
+        <Icon name="bed" size={24} color="#9c27b0" style={{ marginRight: 10 }} />
+        <Text fontSize="regular" fontWeight="bold">Bedroom Preference: </Text>
+        <Text fontSize="regular">{user.bedroomPreference}</Text>
+      </View>
+      <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}>
+        <Icon name="currency-usd" size={24} color="#4caf50" style={{ marginRight: 10 }} />
+        <Text fontSize="regular" fontWeight="bold">Expected Rent: </Text>
+        <Text fontSize="regular">{user.expectedRent}</Text>
+      </View>
+    </View>
+  
+  );
 };
 
 const useSwipeHandler = (user: any) => {
@@ -128,9 +174,7 @@ const UserProfile = ({ route }) => {
               <Age>, {user.age}</Age>
             </Name>
             {/* <Teasers teasers={user.teasers} /> */}
-            <Description style={{ marginTop: 10 }}>
-              {`Ethnicity: ${user.ethnicity}\n\nDietary Preferences: ${user.Dietary}\n\nSmoker: ${user.smoker}\n\nDrinker: ${user.drinker}`}
-            </Description>
+            <UserDetails user={user} />
             <ShareButton>
               <Description
                 fontWeight="bold"
