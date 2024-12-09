@@ -201,6 +201,97 @@ const EditProfile = ({ route }) => {
       !ageOfInterest
   );
 
+  interface Errors {
+    name?: string;
+    age?: string;
+    email?: string;
+    phone?: string;
+    budget?: string;
+    roommateAge?: string;
+    // Add other fields as needed
+  }
+  
+
+
+  const validateInput = (field, value) => {
+    switch (field) {
+      case "name":
+        return value.trim().length > 0 ? "" : "Name is required.";
+      case "age":
+        return /^\d+$/.test(value) && value >= 18 && value <= 99
+          ? ""
+          : "Enter a valid age (18-99).";
+      case "email":
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+          ? ""
+          : "Enter a valid email.";
+      case "phone":
+        return /^\d{10,15}$/.test(value) ? "" : "Enter a valid phone number.";
+      case "budget":
+        return /^\d+$/.test(value) && value > 0
+          ? ""
+          : "Enter a valid budget.";
+
+      case "roommateAge":
+        return /^\d+$/.test(value) && value >= 18 && value <= 99
+          ? ""
+          : "Enter a valid age (18-99).";
+      default:
+        return "";
+    }
+  };
+  
+  // Add error state
+  const [errors, setErrors] = useState<Errors>({});
+  
+  const handleInputChange = (field, value) => {
+    // Validate input and update state
+    const errorMessage = validateInput(field, value);
+    setErrors((prev) => ({ ...prev, [field]: errorMessage }));
+  
+    // Update state dynamically
+    switch (field) {
+      case "name":
+        setName(value);
+        break;
+      case "age":
+        setAge(value);
+        break;
+      case "email":
+        setEmail(value);
+        break;
+      case "phone":
+        setPhone(value);
+        break;
+      case "budget":
+        setBudget(value);
+        break;
+      case "roommateAge":
+        setAgeOfInterest(value);
+        break;
+      default:
+        break;
+    }
+  };
+  
+  // Check if all fields are valid before submission
+  const isFormValid = () => {
+    const requiredFields = [
+      "name",
+      "age",
+      "email",
+      "phone",
+      "budget",
+      "gender",
+      "genderOfInterest",
+    ];
+    const allValid = requiredFields.every(
+      (field) => !validateInput(field, eval(field)) // eval is used for demonstration; replace with proper state references
+    );
+    return allValid;
+  };
+  
+
   const handleContinue = async () => {
     try {
       const preference = {
@@ -415,20 +506,19 @@ const EditProfile = ({ route }) => {
             title="Your Name"
             placeholder="Please enter your name"
             value={name}
-            onChangeText={setName}
+            onChangeText={(value) => handleInputChange("name", value)}
             maxLength={50}
+            errorMessage={errors.name}
           />
+
           <Input
             title="Age"
             placeholder="Please enter your age"
             value={age}
-            onChangeText={(text) => {
-              const numericText = text.replace(/[^0-9]/g, ""); //Only numbers are allowed
-              setAge(numericText);
-            }}
+            onChangeText={(value) => handleInputChange("age", value.replace(/[^0-9]/g, ""))}
             maxLength={3}
-            multiline
-            keyboardType="numeric" // use numeric keyboard
+            keyboardType="numeric"
+            errorMessage={errors.age}
           />
 
           <Input
@@ -441,11 +531,12 @@ const EditProfile = ({ route }) => {
           />
           <Input
             title="Phone Number"
-            placeholder="Please enter your Phone Number"
+            placeholder="Please enter your phone number"
             value={phone}
-            onChangeText={setPhone}
-            maxLength={20}
-            multiline
+            onChangeText={(value) => handleInputChange("phone", value.replace(/[^0-9]/g, ""))}
+            maxLength={10}
+            keyboardType="phone-pad"
+            errorMessage={errors.phone}
           />
 
           <RadioButtons
@@ -459,14 +550,13 @@ const EditProfile = ({ route }) => {
             title="Email"
             placeholder="Please enter your email"
             value={email}
-            onChangeText={(text) => {
-              const emailText = text.replace(/[^a-zA-Z0-9@._-]/g, ""); // Only email-appropriate characters are allowed
-              setEmail(emailText);
-            }}
+            onChangeText={(value) => handleInputChange("email", value)}
             maxLength={50}
-            keyboardType="email-address" // use email keyboard
+            keyboardType="email-address"
             autoCapitalize="none"
+            errorMessage={errors.email}
           />
+
 
           <Input
             title="Program"
@@ -538,15 +628,12 @@ const EditProfile = ({ route }) => {
 
           <Input
             title="Budget"
-            placeholder="Please enter your Budget per month in USD"
+            placeholder="Please enter Maximum Budget (USD)" 
             value={budget}
-            onChangeText={(text) => {
-              const numericText = text.replace(/[^0-9]/g, ""); //Only numbers are allowed
-              setBudget(numericText);
-            }}
-            maxLength={30}
-            multiline
-            keyboardType="numeric" // use numeric keyboard
+            onChangeText={(value) => handleInputChange("budget", value.replace(/[^0-9]/g, ""))}
+            maxLength={8}
+            keyboardType="numeric"
+            errorMessage={errors.budget}
           />
           <View
             style={{
@@ -629,17 +716,14 @@ const EditProfile = ({ route }) => {
             onChange={setDrinkingOfInterest}
             />
             <Input
-            title="Age"
-            placeholder="Please enter your roommate's preferred age"
-            value={ageOfInterest}
-            onChangeText={(text) => {
-              const numericText = text.replace(/[^0-9]/g, ""); //Only numbers are allowed
-              setAgeOfInterest(numericText);
-            }}
-            maxLength={3}
-            multiline
-            keyboardType="numeric" // use numeric keyboard
-          />
+              title="Age"
+              placeholder="Please enter your roommate's preferred age"
+              value={ageOfInterest}
+              onChangeText={(value) => handleInputChange("roommateAge", value.replace(/[^0-9]/g, ""))}
+              maxLength={3}
+              keyboardType="numeric"
+              errorMessage={errors.roommateAge}
+            />
 
           {/* <Input
             title="Budget"
