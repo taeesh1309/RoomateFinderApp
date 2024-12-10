@@ -576,20 +576,20 @@ const EditProfile = ({ route }) => {
               onValueChange={(itemValue) => setSelectedEthnicity(itemValue)}
             >
               <Picker.Item label="Select an option" value="" />
-              <Picker.Item label="Asian" value="asian" />
-              <Picker.Item label="Black or African American" value="black" />
-              <Picker.Item label="Hispanic or Latino" value="hispanic" />
+              <Picker.Item label="Asian" value="Asian" />
+              <Picker.Item label="Black or African American" value="Black or African American" />
+              <Picker.Item label="Hispanic or Latino" value="Hispanic or Latino" />
               <Picker.Item
                 label="Middle Eastern or North African"
-                value="middle_eastern"
+                value="Middle Eastern or North African"
               />
-              <Picker.Item label="Mixed Race or Multiracial" value="mixed" />
+              <Picker.Item label="Mixed Race or Multiracial" value="Mixed Race or Multiracial" />
               <Picker.Item
                 label="Native American or Indigenous"
-                value="native"
+                value="Native American or Indigenous"
               />
-              <Picker.Item label="Pacific Islander" value="pacific_islander" />
-              <Picker.Item label="White or Caucasian" value="white" />
+              <Picker.Item label="Pacific Islander" value="Pacific Islander" />
+              <Picker.Item label="White or Caucasian" value="White or Caucasian" />
               {/* New values from the dataset */}
               <Picker.Item label="South Indian" value="South Indian" />
               <Picker.Item label="Hindu" value="Hindu" />
@@ -675,20 +675,20 @@ const EditProfile = ({ route }) => {
             >
               <Picker.Item label="Select an option" value="" />
               <Picker.Item label="No Preference" value="No Preference" />
-              <Picker.Item label="Asian" value="asian" />
-              <Picker.Item label="Black or African American" value="black" />
-              <Picker.Item label="Hispanic or Latino" value="hispanic" />
+              <Picker.Item label="Asian" value="Asian" />
+              <Picker.Item label="Black or African American" value="Black or African American" />
+              <Picker.Item label="Hispanic or Latino" value="Hispanic or Latino" />
               <Picker.Item
                 label="Middle Eastern or North African"
-                value="middle_eastern"
+                value="Middle Eastern or North African"
               />
-              <Picker.Item label="Mixed Race or Multiracial" value="mixed" />
+              <Picker.Item label="Mixed Race or Multiracial" value="Mixed Race or Multiracial" />
               <Picker.Item
                 label="Native American or Indigenous"
-                value="native"
+                value="Native American or Indigenous"
               />
-              <Picker.Item label="Pacific Islander" value="pacific_islander" />
-              <Picker.Item label="White or Caucasian" value="white" />
+              <Picker.Item label="Pacific Islander" value="Pacific Islander" />
+              <Picker.Item label="White or Caucasian" value="White or Caucasian" />
               {/* New values from the dataset */}
               <Picker.Item label="South Indian" value="South Indian" />
               <Picker.Item label="Hindu" value="Hindu" />
