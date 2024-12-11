@@ -41,3 +41,8 @@ Follow these instructions to set up the project on your local machine.
    ```bash
    i
    ```
+6. **Run the backend code**
+   ```bash
+   cd WebFlaskService
+   python main.py
+   ```
