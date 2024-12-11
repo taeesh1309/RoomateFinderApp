@@ -16,8 +16,10 @@ export default function Component() {
       <BackTouchArea onPress={() => navigation.goBack()}>
         <BackArrow height={15} width={15} fill={colors.text} />
       </BackTouchArea>
-      <Picture source={{ uri: params.user?.picture }} />
-      <Text fontWeight="bold">{params.user?.name || "Undefined"}</Text>
+      <Picture source={{ uri: params.user?.pictures?.[0] || params.user?.picture }} />
+      <Text fontWeight="bold">
+        {params.user?.matchedUserName || params.user?.name || "Undefined"}
+      </Text>
     </Header>
   );
 }

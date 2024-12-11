@@ -15,6 +15,7 @@ export const Container = styled.ScrollView.attrs({
   bounces: false,
 })`
   flex-grow: 1;
+  
 `;
 
 export const BottomColumn = styled.View`
@@ -26,6 +27,7 @@ export const Content = styled.View`
   padding: 25px;
   padding-top: 0;
 `;
+
 
 export const ShareButton = styled.TouchableOpacity.attrs({
   hitSlop: { top: 10, bottom: 10, right: 20, left: 20 },

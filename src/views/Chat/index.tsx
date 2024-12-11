@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useState } from "react";
 import { DateMessage, Send, Header, NextDay } from "./components";
 import { Container, BottomPadding, Messages } from "./styles";
 import { SafeComponent } from "~components";
@@ -18,9 +18,16 @@ function Chat() {
   const [state, dispatch] = useReducer(reducers, INITIAL_STATE);
 
   const displayMessages = Selectors.getMessagesDisplay(state as State);
+  const [data, setData] = useState([]);
 
   const mockRequest = {
     data: displayMessages,
+    loading: false,
+    error: false,
+  };
+
+  const messageRequest = {
+    data: data,
     loading: false,
     error: false,
   };
@@ -31,7 +38,7 @@ function Chat() {
     <Store.Provider value={{ state, dispatch }}>
       <Container behavior={Platform.OS === "ios" ? "padding" : null}>
         <Header />
-        <SafeComponent request={mockRequest}>
+        <SafeComponent request={messageRequest}>
           <Messages
             inverted={!!mockRequest.data?.length}
             data={mockRequest.data}

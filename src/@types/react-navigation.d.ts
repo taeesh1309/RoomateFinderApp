@@ -4,13 +4,13 @@ import type { SceneName } from "~src/@types/SceneName";
 export type RootStackParamList = {
   [SceneName.Swipe]: undefined;
   [SceneName.Messages]: undefined;
-  [SceneName.Profile]: undefined;
+  [SceneName.Profile]: { userId: string };
   [SceneName.Chat]: { user: User };
   [SceneName.Authentication]: undefined;
   [SceneName.OneTimeCode]: undefined;
   [SceneName.UserProfile]: { user: User };
   [SceneName.Main]: NavigatorScreenParams<undefined>;
-  [SceneName.EditProfile]: undefined;
+  [SceneName.EditProfile]: { userId: string };
 };
 
 declare global {

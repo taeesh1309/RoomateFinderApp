@@ -22,7 +22,7 @@ const RadioButton: React.FC<OptionButtonProps> = (props) => {
       marked={props.marked}
       last={props.last}
     >
-      <TextButton marked={props?.marked} fontWeight="bold" fontSize="regular">
+      <TextButton marked={props?.marked} fontWeight="bold" fontSize="small">
         {props.children}
       </TextButton>
     </RadioButtonContainer>

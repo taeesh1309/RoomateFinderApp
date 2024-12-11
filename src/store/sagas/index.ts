@@ -4,5 +4,4 @@ import { Actions } from "~store/reducers";
 
 export default function* rootSaga() {
   yield users;
-  yield put(Actions.users.list.request());
 }

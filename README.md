@@ -13,22 +13,31 @@ Follow these instructions to set up the project on your local machine.
 ### Setup Instructions
 
 1. **Install dependencies:**
+
    ```bash
    yarn
 
+   ```
+
 2. **Import expo-cli**
+
    ```bash
    yarn global add expo-cli
 
+   ```
+
 3. **To install debugger (not required for setup)**
+
    ```bash
    npm install -g react-devtools
+
+   ```
 
 4. **To start the app**
    ```bash
    npx expo start
+   ```
 5. **To run in ios mode**
    ```bash
    i
-
-
+   ```

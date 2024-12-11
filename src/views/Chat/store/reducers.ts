@@ -19,7 +19,7 @@ export interface State {
 const mockMessage = {
   _id: "609c830794d0a801004bc667",
   self: false,
-  message: "Hello, im looking for a roommate",
+  message: "Hello, I am looking for a roommate",
   createdAt: "2021-05-13T01:38:15.144Z",
   status: FeedbackStatus.Success,
 };

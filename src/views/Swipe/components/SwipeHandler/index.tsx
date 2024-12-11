@@ -1,4 +1,4 @@
-import React, { useImperativeHandle } from "react";
+import React, { useContext, useImperativeHandle } from "react";
 import { StyleSheet } from "react-native";
 import { ACTION_OFFSET } from "~constants";
 import FeedbackCard from "~components/FeedbackCard";
@@ -14,6 +14,8 @@ import { useDidMountEffect } from "~services/utils";
 import { getCurrentCardId } from "~store/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { Actions } from "~store/reducers";
+import axios from "axios";
+import { UserContext } from "~views/UserContext";
 
 const ROTATION_DEG = 8;
 
@@ -32,8 +34,24 @@ const SwipeHandler: React.FC<ISwipeHandler> = ({ card }) => {
   const currentCardId = useSelector(getCurrentCardId);
 
   const isFirstCard = card.id === currentCardId;
+  const { userId } = useContext(UserContext);
 
-  const onSwipeComplete = (swipeType: Swipe) => {
+  const onSwipeComplete = async (swipeType: Swipe) => {
+    if (swipeType === Swipe.Like) {
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:5000/firebase/chats",
+          {
+            userId: userId,
+            matchedUserName: card.name,
+            pictures: card.pictures, // chat picture add
+          }
+        );
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
     dispatch(Actions.users.swipe.request({ id: card.id, swipeType }));
   };
 

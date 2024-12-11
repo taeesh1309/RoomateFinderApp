@@ -25,10 +25,12 @@ import {
   ZoomOut,
 } from "react-native-reanimated";
 import { SceneName } from "~src/@types/SceneName";
+// import {useMatches} from '~views/MatchesContext';
 
 const springConfig = { mass: 0.2 };
 
 function VisitingCard({ user, shouldShowPersonalInfo = true, ...props }: any) {
+  // const { matches } = useMatches();
   const { pictures } = user;
   const [currentImage, setCurrentImage] = useState(0);
   const navigation = useNavigation();

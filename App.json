@@ -7,7 +7,11 @@
     "slug": "rommate-finder",
     "icon": "./src/assets/images/icon.png",
     "orientation": "portrait",
-    "platforms": ["ios", "android", "web"],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "androidStatusBar": {
       "barStyle": "light-content",
       "backgroundColor": "#070F26",
@@ -42,6 +46,9 @@
         "wasm",
         "svg"
       ]
-    }
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }

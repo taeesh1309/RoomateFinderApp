@@ -15,6 +15,8 @@ import { enableScreens } from "react-native-screens";
 import { useColorScheme } from "react-native";
 import { useDidMountEffect } from "~services/utils";
 import * as SplashScreen from "expo-splash-screen";
+import { UserProvider } from "~views/UserContext";
+import { MatchesProvider } from '~views/MatchesContext';
 
 LogBox.ignoreLogs([
   "ViewPropTypes will be removed from React Native. Migrate to ViewPropTypes exported from 'deprecated-react-native-prop-types'.",
@@ -54,7 +56,11 @@ export default function App() {
           <Provider store={store}>
             <StatusBar style="dark" />
             <NavigationContainer theme={theme as any}>
-              <Router />
+              <MatchesProvider>
+              <UserProvider>
+                <Router />
+              </UserProvider>
+              </MatchesProvider>
             </NavigationContainer>
           </Provider>
         </SafeComponent>

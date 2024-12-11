@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { ThemeContext } from "styled-components/native";
+import axios from "axios";
 import Authentication from "./Authentication";
 import OneTimeCode from "./OneTimeCode";
 import UserProfile from "./UserProfile";
@@ -26,6 +27,7 @@ import LogoActive from "~images/LogoActive.svg";
 import MessagesActive from "~images/MessagesActive.svg";
 import ProfileActive from "~images/UserActive.svg";
 import { Dimensions } from "react-native";
+import { UserContext } from "./UserContext";
 
 const Tab = createMaterialTopTabNavigator<RootStackParamList>();
 const Stack = createStackNavigator<RootStackParamList>();
@@ -35,6 +37,12 @@ const screenWidth = Dimensions.get("window").width;
 const Tabs = () => {
   const themeContext = useContext(ThemeContext);
 
+  const { userId, setUserId, currentTab, setCurrentTab } =
+    useContext(UserContext); // UserContext에서 userId와 setUserId 가져오기
+
+  useEffect(() => {
+  }, [currentTab]);
+
   return (
     <Tab.Navigator
       tabBar={(props) => <Navbar {...props} />}
@@ -43,6 +51,12 @@ const Tabs = () => {
         tabBarInactiveTintColor: themeContext.colors.text,
       }}
       initialRouteName={SceneName.Swipe}
+      screenListeners={{
+        tabPress: (e) => {
+          const routeName = e.target?.split("-")[0]; // 탭의 이름을 가져옴
+          setCurrentTab(routeName); // currentTab 상태 업데이트
+        },
+      }}
     >
       <Tab.Screen
         options={{
@@ -64,8 +78,9 @@ const Tabs = () => {
         name={SceneName.Profile}
         options={{
           tabBarIcon: ({ focused, color }) =>
-            focused ? <Profile fill={"maroon"} />: <Profile fill={color} />,
+            focused ? <Profile fill={"maroon"} /> : <Profile fill={color} />,
         }}
+        initialParams={{ userId }}
         component={EditProfileView}
       />
     </Tab.Navigator>
@@ -75,7 +90,7 @@ const Tabs = () => {
 function Router() {
   const theme = useContext(ThemeContext);
 
-    return (
+  return (
     <Stack.Navigator
       initialRouteName={SceneName.EditProfile}
       screenOptions={{
