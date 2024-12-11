@@ -50,7 +50,7 @@ Follow these instructions to set up the project on your local machine.
 
 
 
-## Unit Tests
+## Unit Tests for HokieFinder
 
 Unit tests were implemented using the `pytest` library in Python to ensure the functionality and correctness of the APIs. Below are instructions to run the tests for both the Flask Model API and the Flask Firebase API.
 
@@ -124,3 +124,70 @@ Unit tests were implemented using the `pytest` library in Python to ensure the f
 4. **Test Details**:
    - The Firebase API tests verify the addition and retrieval of users in the Firestore database.
    - All tests pass successfully, ensuring API stability.
+
+
+## Acceptance Tests for HokieFinder
+
+This section outlines the acceptance tests designed to validate that the HokieFinder application meets the user stories and functionality. The provided use cases include execution steps and expected outputs. These instructions can be followed to verify the correctness and completeness of the application functionality.
+
+---
+
+### Use Case 1: Profile Form Input Validation
+
+#### User Story
+As a user, I want the profile form to validate inputs so I can avoid submitting incorrect data. This will save me time and ensure that only accurate and complete information is stored in my profile.
+
+#### Execution Steps
+1. Navigate to the "Create Profile" page in the app.
+2. Enter invalid data into the following fields:
+   - **Email**: Enter an incorrect format (e.g., `invalidemail`).
+   - **Phone Number**: Enter letters or an incomplete number (e.g., `abcd123`).
+   - **Age** or **Budget**: Enter a non-numeric value (e.g., `twenty`).
+3. Attempt to submit the form.
+
+#### Expected Output
+- For invalid email input, an error message should display: "Enter a valid email."
+- For incorrect phone number input, an error message should display: "Enter a valid phone number."
+- For invalid numeric fields like **Age** or **Budget**, an error message should display: "Enter a valid age (18-99)." or "Enter a valid Budget" respectively.
+
+---
+
+### Use Case 2: Swiping Page with Fluid Animations
+
+#### User Story
+As a user, I want an engaging swiping page with fluid animations so I can quickly browse and evaluate potential roommates.
+
+#### Execution Steps
+1. Navigate to the "Recommendation" page in the app (The one with VT logo).
+2. Swipe left or right on a profile card to reject or accept a match.
+3. Observe the transition animation as the card moves out of view.
+4. Repeat the swiping action for multiple profiles.
+
+#### Expected Output
+- The swiping animation should be smooth and responsive, without lag or glitches.
+- Swiping left should dismiss the profile as "not interested."
+- Swiping right should mark the profile as a potential match and populated in messaging page.
+- Users should experience a seamless browsing experience with no functional errors.
+
+---
+
+### Use Case 3: Editing Profile Information
+
+#### User Story
+As a user, I want to edit my profile easily once I run out of swipes. This will allow me to update my preference and ensure accurate matching with potential roommates based on new features.
+
+#### Execution Steps
+1. Click the "Edit Profile" button shown when you run out of swipes.
+2. Modify the following fields under "Roommate Preference" section:
+   - Change the **Age** value.
+   - Update the **Dietary Preference** to a new option.
+   - Update the **Smoker** or **Drinker** option.
+   - Update the **Ethinicity** option.
+3. Click the "Continue" button to save the changes.
+4. Redirects you to the recommendation page (the one with VT Logo).
+
+#### Expected Output
+- Clicking the "Continue" button should save the updated profile information.
+- The modified fields should reflect the updated roommates on the "Recommendation" page.
+- The backend database should also reflect the updated information when queried.
+
