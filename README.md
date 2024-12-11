@@ -1,4 +1,4 @@
-# Roommate Finder App
+# HookieFinder - A roommate Finding App for the Hokies by the Hokies
 
 This repository contains the source code for the Roommate Finder app, designed to help users find compatible roommates using a machine learning-based matching algorithm.
 
