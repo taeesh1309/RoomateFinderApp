@@ -54,7 +54,7 @@ Follow these instructions to set up the project on your local machine.
 
 Unit tests were implemented using the `pytest` library in Python to ensure the functionality and correctness of the APIs. Below are instructions to run the tests for both the Flask Model API and the Flask Firebase API.
 
-### Testing the Flask Model API
+### 1. Testing the Flask Model API
 
 1. Navigate to the backend directory:
 
@@ -89,7 +89,7 @@ Unit tests were implemented using the `pytest` library in Python to ensure the f
    - The Model API tests verify the retrieval of recommended Roommates when passed with different parameters.
    - All tests pass successfully, ensuring API stability.
 
-### Testing the Flask Firebase API
+### 2. Testing the Flask Firebase API
 
 1. Navigate to the backend directory:
 
