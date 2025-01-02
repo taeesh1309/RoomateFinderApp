@@ -8,7 +8,8 @@ Follow these instructions to set up the project on your local machine.
 
 ### Prerequisites
 
-- **Node.js**, **ios simulator** and **npm** installed
+- **Node.js**, **ios simulator** and **npm** installed.
+- One must also add the serviceAccountKey.json file from Firebase by generating a new private key.
 
 ### Setup Instructions
 
